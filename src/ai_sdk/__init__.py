@@ -6,6 +6,7 @@ from .providers.openai import openai
 from .tool import tool, Tool
 from .providers.anthropic import anthropic
 from .providers.gemini import gemini
+from .providers.openrouter import openrouter
 from .agent import Agent
 
 """Public entry-point for the *Python* port of Vercel's AI SDK.
@@ -28,6 +29,7 @@ __all__ = [
     "openai",
     "anthropic",
     "gemini",
+    "openrouter",
     "tool",
     "Tool",
     "Agent",

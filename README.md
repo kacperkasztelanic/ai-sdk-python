@@ -270,9 +270,11 @@ The SDK is provider-agnostic. Currently supported:
 
 - **OpenAI** - GPT models, embeddings, function calling
 - **Anthropic** - Claude models
+- **Google Gemini** - Gemini models
+- **OpenRouter** - Any model on OpenRouter (using `openai` underlying client)
 
 ```python
-from ai_sdk import generate_text, openai, anthropic
+from ai_sdk import generate_text, openai, anthropic, openrouter
 
 # OpenAI
 openai_model = openai("gpt-4o-mini")
@@ -281,6 +283,10 @@ res1 = generate_text(model=openai_model, prompt="Hello")
 # Anthropic
 anthropic_model = anthropic("claude-3-sonnet-20240229")
 res2 = generate_text(model=anthropic_model, prompt="Hello")
+
+# OpenRouter
+openrouter_model = openrouter("anthropic/claude-3-haiku")
+res3 = generate_text(model=openrouter_model, prompt="Hello")
 ```
 
 ## Key Benefits
@@ -350,6 +356,46 @@ Check out the [examples directory](examples/) for complete working examples:
 - `stream_object_example.py` - Streaming structured output
 - `embeddings_example.py` - Embedding and similarity
 - `tool_calling_example.py` - Tool calling with Pydantic models and JSON schema
+
+## Building and Releasing
+
+### Local Development and Building
+
+This project uses `hatchling` as its build backend and `uv` for dependency management.
+
+To build the package locally:
+```bash
+# Using uv:
+uv build
+
+# Or using the standard build module:
+python -m build
+```
+This will generate `.tar.gz` and `.whl` files in the `dist` directory.
+
+### Including in Other Projects
+
+You can install your local build directly into other Python projects while you iterate:
+
+```bash
+# Using pip
+pip install /path/to/ai-sdk-python/dist/ai_sdk_python-0.1.1-py3-none-any.whl
+
+# Using uv
+uv add /path/to/ai-sdk-python/dist/ai_sdk_python-0.1.1-py3-none-any.whl
+```
+
+### Publishing to Git Releases (GitHub/GitLab/Gitea)
+
+You can attach the generated build artifacts to your VCS releases, allowing others to install directly from your repository without relying on PyPI:
+
+1. Build the library (`uv build`).
+2. Create a new Release in your source control (GitHub, GitLab, Gitea).
+3. Upload the `.whl` file from the `dist/` directory as a binary asset to the release.
+4. Users can then install directly using the asset URL:
+   ```bash
+   pip install https://github.com/YOUR_ORG/ai-sdk-python/releases/download/v0.1.1/ai_sdk_python-0.1.1-py3-none-any.whl
+   ```
 
 ## Contributing
 
